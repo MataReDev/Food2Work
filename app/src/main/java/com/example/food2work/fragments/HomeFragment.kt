@@ -29,6 +29,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recipeArrayList: ArrayList<RecipeModel> = ArrayList()
+
+        //region Add items To array
         recipeArrayList.add(RecipeModel(
             "Pâtes à la Carbonara",
             "Un plat de pâtes crémeux et savoureux, facile à préparer en quelques minutes.",
@@ -47,7 +49,6 @@ class HomeFragment : Fragment() {
             "https://img.cuisineaz.com/1024x576/2016/10/23/i113627-poulet-roti-au-four.webp",
             5
         ))
-
         recipeArrayList.add(RecipeModel(
             "Pizza Margherita",
             "Une pizza classique et savoureuse avec de la sauce tomate, de la mozzarella et du basilic.",
@@ -78,6 +79,7 @@ class HomeFragment : Fragment() {
             "https://static.750g.com/images/1200-630/9823eb627203c878f3e36d72f8ce6d1c/tarte-aux-pommes.jpg",
             3
         ))
+        //endregion
 
         val courseAdapter = RecipeAdapter(requireContext(), recipeArrayList)
         val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
