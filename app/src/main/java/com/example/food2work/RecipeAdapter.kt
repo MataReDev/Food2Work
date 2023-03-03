@@ -22,10 +22,10 @@ class RecipeAdapter(private val context: Context, private val recipeModelArrayLi
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model: RecipeModel = recipeModelArrayList[position]
-        holder.titleRecipe.text = model.recipe_title
-        holder.descriptionRecipe.text = model.description_recipe
-        holder.nbIngredientRecipe.text = "Nb Ingrédients : ${model.nb_ingredient_recipe}"
-        loadImage(model.image_recipe, holder.imageLinkRecipe)
+        holder.titleRecipe.text = model.title
+        holder.descriptionRecipe.text = model.description
+        holder.nbIngredientRecipe.text = "Nb Ingrédients : ${model.ingredients.size}"
+        loadImage(model.featured_image, holder.imageLinkRecipe)
     }
 
 
