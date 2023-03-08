@@ -11,11 +11,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-class RecipeAdapter(private val context: Context, private val recipeModelArrayList: ArrayList<RecipeModel>) :
-    RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+class RecipeAdapter(
+    private val context: Context,
+    private val recipeModelArrayList: ArrayList<RecipeModel>,
+    private val listener: OnRecipeItemClickListener?,
+) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+
+    private var onRecipeItemClickListener: OnRecipeItemClickListener? = null
+
+    fun setOnRecipeItemClickListener(listener: OnRecipeItemClickListener) {
+        onRecipeItemClickListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // to inflate the layout for each item of recycler view.
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
         return ViewHolder(view)
     }
 
@@ -26,15 +36,15 @@ class RecipeAdapter(private val context: Context, private val recipeModelArrayLi
         holder.descriptionRecipe.text = model.description
         holder.nbIngredientRecipe.text = "Nb Ingrédients : ${model.ingredients.size}"
         loadImage(model.featured_image, holder.imageLinkRecipe)
+        holder.itemView.setOnClickListener {
+            listener?.onRecipeItemClick(model)
+        }
     }
 
-
     override fun getItemCount(): Int {
-        // this method is used for showing number of card items in recycler view.
         return recipeModelArrayList.size
     }
 
-    // View holder class for initializing of your views such as TextView and Imageview.
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageLinkRecipe: ImageView = itemView.findViewById(R.id.imageRecipe)
         val titleRecipe: TextView = itemView.findViewById(R.id.titleRecipe)
@@ -49,5 +59,8 @@ class RecipeAdapter(private val context: Context, private val recipeModelArrayLi
             .error(R.drawable.ic_splahscreen) // optional
             .into(imageView)
     }
+}
 
+interface OnRecipeItemClickListener {
+    fun onRecipeItemClick(recipe: RecipeModel)
 }
