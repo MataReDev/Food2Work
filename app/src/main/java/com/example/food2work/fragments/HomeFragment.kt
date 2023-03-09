@@ -116,12 +116,19 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
     }
 
     override fun onRecipeItemClick(recipe: RecipeModel) {
-//        val bundle = Bundle()
-//        bundle.putParcelable("recipe", recipe)
-//        val recipeDetailsFragment = RecipeDetailsFragment()
-//        recipeDetailsFragment.arguments = bundle
-//
-//        makeCurrentFragment(R.id.idDetailRecipe)
+        val recipeDetailsFragment = RecipeDetailsFragment(recipe)
+        val bundle = Bundle()
+        bundle.putParcelable("recipe", recipe)
+        recipeDetailsFragment.arguments = bundle
+
+        makeCurrentFragment(recipeDetailsFragment)
     }
+
+    private fun makeCurrentFragment(fragment: Fragment) =
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
+            replace(R.id.fl_wrapper, fragment)
+            addToBackStack(null)
+            commit()
+        }
 
 }
