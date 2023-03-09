@@ -17,16 +17,18 @@ class RecipeAdapter(
     private val listener: OnRecipeItemClickListener?,
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
-    private var onRecipeItemClickListener: OnRecipeItemClickListener? = null
-
-    fun setOnRecipeItemClickListener(listener: OnRecipeItemClickListener) {
-        onRecipeItemClickListener = listener
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
-        return ViewHolder(view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
+        val viewHolder = ViewHolder(view)
+
+        view.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener?.onRecipeItemClick(recipeModelArrayList[position])
+            }
+        }
+
+        return viewHolder
     }
 
     @SuppressLint("SetTextI18n")
@@ -36,9 +38,6 @@ class RecipeAdapter(
         holder.descriptionRecipe.text = model.description
         holder.nbIngredientRecipe.text = "Nb Ingrédients : ${model.ingredients.size}"
         loadImage(model.featured_image, holder.imageLinkRecipe)
-        holder.itemView.setOnClickListener {
-            listener?.onRecipeItemClick(model)
-        }
     }
 
     override fun getItemCount(): Int {
