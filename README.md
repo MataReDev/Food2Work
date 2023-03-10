@@ -45,6 +45,7 @@ Si vous souhaitez contribuer à l'application, veuillez suivre ces étapes :
 Liste des auteurs
 
 [MataReDev](https://github.com/MataReDev)
+[Yoyo6K](https://github.com/Yoyo6K)
 
 
 ## Licence
