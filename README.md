@@ -49,5 +49,3 @@ Liste des auteurs
 
 ## Licence
 Ce projet est sous licence GNU GENERAL PUBLIC LICENSE - Version 3. Pour plus d'informations, veuillez consulter le fichier [LICENSE](https://github.com/MataReDev/Food2Work/blob/master/license.md) dans ce dépôt.
-
-Dans ce cas, vous devrez ajouter un fichier appelé LICENSE dans votre dépôt GitHub et y inclure le texte intégral de la licence. Vous pouvez copier et coller le texte de la licence depuis le site web de la Free Software Foundation : https://www.gnu.org/licenses/gpl-3.0.en.html
