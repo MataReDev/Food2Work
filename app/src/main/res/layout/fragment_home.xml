@@ -14,6 +14,14 @@
         android:iconifiedByDefault="false"
         android:layout_margin="8dp" />
 
+    <ImageView
+        android:id="@+id/no_results_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/not_found"
+        android:visibility="gone"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idRVRecipe"
         android:layout_width="match_parent"
