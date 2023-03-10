@@ -21,6 +21,8 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
     private var pageRecipe: Int = 1
     private val token = "Token 9c8b06d329136da358c2d00e76946b0111ce2c48"
 
+    private var isFavorite: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

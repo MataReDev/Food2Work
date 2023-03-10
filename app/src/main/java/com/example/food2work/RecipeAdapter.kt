@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -33,11 +34,27 @@ class RecipeAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val model: RecipeModel = recipeModelArrayList[position]
-        holder.titleRecipe.text = model.title
-        holder.descriptionRecipe.text = model.description
-        holder.nbIngredientRecipe.text = "Nb Ingrédients : ${model.ingredients.size}"
-        loadImage(model.featured_image, holder.imageLinkRecipe)
+        val recipe: RecipeModel = recipeModelArrayList[position]
+        holder.titleRecipe.text = recipe.title
+        holder.descriptionRecipe.text = recipe.description
+        holder.nbIngredientRecipe.text = "Nb Ingrédients : ${recipe.ingredients.size}"
+        loadImage(recipe.featured_image, holder.imageLinkRecipe)
+
+        holder.favoriteIV.setImageResource(R.drawable.ic_star)
+
+        holder.favoriteIV.setOnClickListener {
+            // Toggle the state of the ImageView and change the image accordingly
+            holder.favoriteIV.isSelected = !holder.favoriteIV.isSelected
+            if (holder.favoriteIV.isSelected) {
+                holder.favoriteIV.setImageResource(R.drawable.star_1_svgrepo_com)
+            } else {
+                holder.favoriteIV.setImageResource(R.drawable.ic_star)
+            }
+        }
+
+        holder.itemView.setOnClickListener {
+            listener?.onRecipeItemClick(recipe)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -49,6 +66,7 @@ class RecipeAdapter(
         val titleRecipe: TextView = itemView.findViewById(R.id.titleRecipe)
         val descriptionRecipe: TextView = itemView.findViewById(R.id.descriptionRecipe)
         val nbIngredientRecipe: TextView = itemView.findViewById(R.id.nbIngredientRecipe)
+        val favoriteIV: ImageButton = itemView.findViewById(R.id.starButton)
     }
 
     private fun loadImage(url: String?, imageView: ImageView) {
