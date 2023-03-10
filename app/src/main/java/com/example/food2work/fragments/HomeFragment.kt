@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeFragment : Fragment(), OnRecipeItemClickListener {
     private lateinit var recipeRV: RecyclerView
-    private lateinit var searvSV: SearchView
+    private lateinit var searchSV: SearchView
     private var pageRecipe: Int = 1
     private val token = "Token 9c8b06d329136da358c2d00e76946b0111ce2c48"
 
@@ -28,7 +28,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         recipeRV = view.findViewById(R.id.idRVRecipe)
-        searvSV = view.findViewById(R.id.SVrecipe)
+        searchSV = view.findViewById(R.id.SVrecipe)
         return view
     }
 
@@ -47,7 +47,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
         recipeRV.layoutManager = linearLayoutManager
         recipeRV.adapter = recipeAdapter
 
-        searvSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
@@ -87,7 +87,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
             val response =
                 api.searchRecipes(
                     pageRecipe,
-                    searvSV.query.toString(),
+                    searchSV.query.toString(),
                     token
                 )
             if (response?.recipes != null) {
@@ -97,16 +97,16 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
                     val description = result.description
                     val image = result.featured_image
                     val ingredients = result.ingredients
-                    val date_added = result.date_added
-                    val date_updated = result.date_updated
+                    val dateAdded = result.date_added
+                    val dateUpdated = result.date_updated
                     RecipeModel(
                         id,
                         title,
                         description,
                         image,
                         ingredients,
-                        date_added,
-                        date_updated
+                        dateAdded,
+                        dateUpdated
                     )
                 }
                 recipeArrayList.addAll(recipeList)
