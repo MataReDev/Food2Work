@@ -62,12 +62,15 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
                 return false
             }
         })
+
         recipeRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (linearLayoutManager.findLastVisibleItemPosition() == linearLayoutManager.itemCount - 1 * pageRecipe) {
+                if (recipeArrayList.count() >= 28 && linearLayoutManager.findLastVisibleItemPosition() == linearLayoutManager.itemCount - 1 * pageRecipe) {
                     pageRecipe++
                     searchRecipes(recipeArrayList, recipeAdapter)
                 }
+                else
+                    return
                 super.onScrolled(recipeRV, dx, dy)
             }
         })
@@ -89,7 +92,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
                     searchSV.query.toString(),
                     token
                 )
-                if (response != null && response.recipes != null) {
+                if (response?.recipes != null) {
                     val recipeList = response.recipes.map { result ->
                         val id = result.pk
                         val title = result.title
