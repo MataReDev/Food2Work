@@ -26,6 +26,18 @@
 
             <!-- get = sugar cake -->
             <RadioButton
+                android:id="@+id/allRecipes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tout"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <!-- get = sugar cake -->
+            <RadioButton
                 android:id="@+id/rbDessert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,17 +107,6 @@
                 android:textColor="@color/white"
                 android:button="@null" />
 
-            <!-- get = canadian -->
-            <RadioButton
-                android:id="@+id/rbCanadien"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Canadien"
-                android:layout_margin="5dp"
-                android:padding="5dp"
-                android:background="@drawable/radio_background_button"
-                android:textColor="@color/white"
-                android:button="@null" />
 
         </RadioGroup>
     </HorizontalScrollView>

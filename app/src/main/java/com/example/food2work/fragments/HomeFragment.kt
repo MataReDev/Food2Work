@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,6 +22,9 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
     private lateinit var recipeRV: RecyclerView
     private lateinit var searchSV: SearchView
     private lateinit var noResult: ImageView
+
+    private lateinit var radioGroup: RadioGroup
+
     private var pageRecipe: Int = 1
     private val token = "Token 9c8b06d329136da358c2d00e76946b0111ce2c48"
 
@@ -35,6 +39,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
         recipeRV = view.findViewById(R.id.idRVRecipe)
         searchSV = view.findViewById(R.id.SVrecipe)
         noResult = view.findViewById(R.id.no_results_icon)
+        radioGroup = view.findViewById(R.id.category_radio_group)
         return view
     }
 
@@ -53,23 +58,38 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
         recipeRV.adapter = recipeAdapter
         searchSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
-                pageRecipe = 1
                 return false
             }
+
             override fun onQueryTextSubmit(query: String): Boolean {
+                println("send text")
+                pageRecipe = 1
+                radioGroup.isSelected = false
                 recipeArrayList.clear()
                 searchRecipes(recipeArrayList, recipeAdapter)
                 return false
             }
         })
 
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            searchSV.setQuery("", false)
+            pageRecipe = 1
+            val recipeArrayList: ArrayList<RecipeModel> = ArrayList()
+            val recipeAdapter = RecipeAdapter(requireContext(), recipeArrayList, this)
+            val linearLayoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            searchRecipes(recipeArrayList, recipeAdapter)
+            recipeRV.layoutManager = linearLayoutManager
+            recipeRV.adapter = recipeAdapter
+        }
+
+
         recipeRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (recipeArrayList.count() >= 28 && linearLayoutManager.findLastVisibleItemPosition() == linearLayoutManager.itemCount - 1 * pageRecipe) {
                     pageRecipe++
                     searchRecipes(recipeArrayList, recipeAdapter)
-                }
-                else
+                } else
                     return
                 super.onScrolled(recipeRV, dx, dy)
             }
@@ -80,6 +100,19 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
         recipeArrayList: ArrayList<RecipeModel>,
         recipeAdapter: RecipeAdapter,
     ) {
+        var category = radioGroup.checkedRadioButtonId.let {
+            when (it) {
+                R.id.allRecipes -> searchSV.query.toString()
+                R.id.rbDessert -> "sugar cake"
+                R.id.rbAperitifDinatoire -> "cocktail"
+                R.id.rbBurger -> "burger"
+                R.id.rbMexicain -> "mexican"
+                R.id.rbJaponais -> "japanese"
+                R.id.rbCuban -> "cuban"
+                else -> ""
+            }
+        }
+
         val api = Retrofit.Builder()
             .baseUrl("https://food2fork.ca/api/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -89,7 +122,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
             try {
                 val response = api.searchRecipes(
                     pageRecipe,
-                    searchSV.query.toString(),
+                    category,
                     token
                 )
                 if (response?.recipes != null) {
@@ -101,7 +134,15 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
                         val ingredients = result.ingredients
                         val dateAdded = result.date_added
                         val dateUpdated = result.date_updated
-                        RecipeModel(id,title,description,image,ingredients,dateAdded,dateUpdated)
+                        RecipeModel(
+                            id,
+                            title,
+                            description,
+                            image,
+                            ingredients,
+                            dateAdded,
+                            dateUpdated
+                        )
                     }
                     if (recipeList != null && recipeList.isNotEmpty()) {
                         recipeRV.visibility = View.VISIBLE
@@ -111,16 +152,20 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
                     } else {
                         recipeRV.visibility = View.GONE
                         noResult.visibility = View.VISIBLE
-                        Toast.makeText(requireContext(),"No results found",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } else {
-                    Toast.makeText(requireContext(),"Failed to load recipes",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Failed to load recipes", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(),"Failed to load recipes",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to load recipes", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
+
     override fun onRecipeItemClick(recipe: RecipeModel) {
         val recipeDetailsFragment = RecipeDetailsFragment(recipe)
         val bundle = Bundle()
