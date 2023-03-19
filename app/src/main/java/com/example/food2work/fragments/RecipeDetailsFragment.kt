@@ -1,28 +1,27 @@
 package com.example.food2work.fragments
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.food2work.R
-import com.example.food2work.RecipeApiService
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.food2work.RecipeModel
 
-class RecipeDetailsFragment : Fragment() {
+class RecipeDetailsFragment(private var recipe: RecipeModel) : Fragment() {
 
     private lateinit var imageView: ImageView
     private lateinit var title: TextView
     private lateinit var description: TextView
-    private lateinit var ingredientRV: RecyclerView
-    private lateinit var date_added: TextView
-    private lateinit var date_updated: TextView
+    private lateinit var ingredientsLV: TextView
+    private lateinit var dateAdded: TextView
+    private lateinit var dateUpdated: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +29,8 @@ class RecipeDetailsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val view = inflater.inflate(R.layout.fragment_recipe_details, container, false)
-
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         return view
     }
 
@@ -40,38 +40,32 @@ class RecipeDetailsFragment : Fragment() {
         imageView = view.findViewById(R.id.featured_image)
         title = view.findViewById(R.id.title)
         description = view.findViewById(R.id.description)
-        ingredientRV = view.findViewById(R.id.ingredients_recycler_view)
-        date_added = view.findViewById(R.id.date_added)
-        date_updated = view.findViewById(R.id.date_updated)
-
-        val id: Int = 1
-        searchRecipe(id)
+        ingredientsLV = view.findViewById(R.id.ingredientsLV)
+        dateAdded = view.findViewById(R.id.dateAdded)
+        dateUpdated = view.findViewById(R.id.dateUpdated)
+        detailsRecipe(recipe)
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun detailsRecipe(recipe: RecipeModel) {
+        var listIngredient: String = ""
 
-    private fun searchRecipe(id: Int) {
-        val api = Retrofit.Builder().baseUrl("https://food2fork.ca/api/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-            .create(RecipeApiService::class.java)
-
-        lifecycleScope.launch {
-            val response = api.searchARecipe(id, "Token 9c8b06d329136da358c2d00e76946b0111ce2c48")
-            if (response?.recipe != null) {
-                val recipe = response.recipe
-                title.text = recipe.title
-                description.text = recipe.description
-                date_added.text = recipe.date_added
-                date_updated.text = recipe.date_updated
-
-                // Set the recipe image
-//                imageView(featured_image)
-//
-//
-//
-//                // Update the RecyclerView adapter with the list of ingredients
-//                ingredientRV.adapter = IngredientsAdapter(ingredients)
-            }
+        title.text = recipe.title
+        description.text = "Description :\n${recipe.description}"
+        dateAdded.text = "Ajouté le :\n${recipe.date_added}"
+        dateUpdated.text = "Mis à jour :\n${recipe.date_updated}"
+        context?.let { loadImage(recipe.featured_image, imageView, it) }
+        recipe.ingredients.forEach { ingredient ->
+            listIngredient += "${ingredient}\n"
         }
+        ingredientsLV.text = listIngredient
     }
 
+    private fun loadImage(url: String?, imageView: ImageView, context: Context) {
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.ic_splahscreen) // optional
+            .error(R.drawable.ic_splahscreen) // optional
+            .into(imageView)
+    }
 }

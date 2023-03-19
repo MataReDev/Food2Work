@@ -14,6 +14,110 @@
         android:iconifiedByDefault="false"
         android:layout_margin="8dp" />
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/category_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- get = sugar cake -->
+            <RadioButton
+                android:id="@+id/allRecipes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tout"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <!-- get = sugar cake -->
+            <RadioButton
+                android:id="@+id/rbDessert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dessert"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <!-- get = cocktail -->
+            <RadioButton
+                android:id="@+id/rbAperitifDinatoire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apéritif dinatoire"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <!-- get = burger -->
+            <RadioButton
+                android:id="@+id/rbBurger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Burger"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <!-- get = mexican -->
+            <RadioButton
+                android:id="@+id/rbMexicain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mexicain"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <!-- get = japanese -->
+            <RadioButton
+                android:id="@+id/rbJaponais"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Japonais"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/rbCuban"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cubain"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/radio_background_button"
+                android:textColor="@color/white"
+                android:button="@null" />
+
+
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/no_results_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/not_found"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idRVRecipe"
         android:layout_width="match_parent"
