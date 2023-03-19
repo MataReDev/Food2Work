@@ -1,5 +1,6 @@
 package com.example.food2work
 
+import Favori
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 
 
 class FavoriteRecipeAdapter : ListAdapter<RecipeModel, FavoriteRecipeAdapter.FavoriteViewHolder>(FavoritesComparator()) {
@@ -18,6 +20,10 @@ class FavoriteRecipeAdapter : ListAdapter<RecipeModel, FavoriteRecipeAdapter.Fav
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current.title)
+    }
+
+    fun setData(favoris: List<Favori>?) {
+
     }
 
     class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
