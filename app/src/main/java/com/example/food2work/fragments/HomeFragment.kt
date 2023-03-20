@@ -13,12 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.food2work.*
+import com.example.food2work.database.RecipeFavorisDao
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class HomeFragment : Fragment(), OnRecipeItemClickListener {
+class HomeFragment (private val recipeFavorisDao: RecipeFavorisDao) : Fragment(), OnRecipeItemClickListener {
     private lateinit var recipeRV: RecyclerView
     private lateinit var searchSV: SearchView
     private lateinit var noResult: ImageView
@@ -50,7 +51,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
         searchSV.clearFocus()
         super.onViewCreated(view, savedInstanceState)
         val recipeArrayList: ArrayList<RecipeModel> = ArrayList()
-        val recipeAdapter = RecipeAdapter(requireContext(), recipeArrayList, this)
+        val recipeAdapter = RecipeAdapter(requireContext(), recipeArrayList, this, recipeFavorisDao)
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         searchRecipes(recipeArrayList, recipeAdapter)
@@ -75,7 +76,7 @@ class HomeFragment : Fragment(), OnRecipeItemClickListener {
             searchSV.setQuery("", false)
             pageRecipe = 1
             val recipeArrayList: ArrayList<RecipeModel> = ArrayList()
-            val recipeAdapter = RecipeAdapter(requireContext(), recipeArrayList, this)
+            val recipeAdapter = RecipeAdapter(requireContext(), recipeArrayList, this, recipeFavorisDao)
             val linearLayoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             searchRecipes(recipeArrayList, recipeAdapter)

@@ -1,8 +1,10 @@
-package com.example.food2work
+package com.example.food2work.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.food2work.R
+import com.example.food2work.database.AppDatabase
 import com.example.food2work.fragments.FavorisFragment
 import com.example.food2work.fragments.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val homeFragment = HomeFragment()
+        val recipeFavorisDao = AppDatabase.getInstance(this).favoriDao()
+        val homeFragment = HomeFragment(recipeFavorisDao)
         val favorisFragment = FavorisFragment()
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)

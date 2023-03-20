@@ -10,12 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.food2work.database.RecipeFavorisDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RecipeAdapter(
     private val context: Context,
     private val recipeModelArrayList: ArrayList<RecipeModel>,
     private val listener: OnRecipeItemClickListener?,
+    private val recipeFavorisDao: RecipeFavorisDao,
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,19 +44,24 @@ class RecipeAdapter(
         holder.descriptionRecipe.text = recipe.description
         holder.nbIngredientRecipe.text = "Nb Ingrédients : ${recipe.ingredients.size}"
         loadImage(recipe.featured_image, holder.imageLinkRecipe)
-
         holder.favoriteIV.setImageResource(R.drawable.ic_star)
-
         holder.favoriteIV.setOnClickListener {
             // Toggle the state of the ImageView and change the image accordingly
             holder.favoriteIV.isSelected = !holder.favoriteIV.isSelected
             if (holder.favoriteIV.isSelected) {
                 holder.favoriteIV.setImageResource(R.drawable.star_1_svgrepo_com)
+                // Add the recipe to favorites
+                CoroutineScope(Dispatchers.IO).launch {
+                    recipeFavorisDao.insert(recipe)
+                    println( recipeFavorisDao.getRecipeCount())
+                }
             } else {
                 holder.favoriteIV.setImageResource(R.drawable.ic_star)
+                CoroutineScope(Dispatchers.IO).launch {
+                    recipeFavorisDao.delete(recipe)
+                }
             }
         }
-
         holder.itemView.setOnClickListener {
             listener?.onRecipeItemClick(recipe)
         }

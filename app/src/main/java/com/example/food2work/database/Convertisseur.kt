@@ -1,3 +1,5 @@
+package com.example.food2work.database
+
 import androidx.room.TypeConverter
 
 class StringListConverter {
