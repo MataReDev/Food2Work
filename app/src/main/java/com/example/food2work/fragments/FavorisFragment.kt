@@ -40,7 +40,7 @@ class FavorisFragment : Fragment(), OnFavoriteRecipeItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recipeArrayList: ArrayList<RecipeModel> = ArrayList()
-        val favorisAdapter = FavoriteRecipeAdapter(requireContext(), recipeArrayList, this)
+        val favorisAdapter = FavoriteRecipeAdapter(requireContext(), recipeArrayList, this,recipeFavorisDao)
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         searchRecipes(recipeArrayList, favorisAdapter)
