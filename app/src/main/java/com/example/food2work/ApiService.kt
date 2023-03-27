@@ -15,10 +15,10 @@ interface RecipeApiService {
     ): ApiResponseMultiple
 
     @GET("recipe/get/")
-    suspend fun searchARecipe(
+    suspend fun searchRecipeById(
         @Query("id") id: Int,
         @Header("Authorization") token: String
-    ) : ApiResponseUnique
+    ) : RecipeModel
 }
 
 
@@ -29,9 +29,5 @@ data class ApiResponseMultiple(
     val recipes: List<RecipeModel>
 )
 
-data class ApiResponseUnique(
-    @SerializedName("results")
-    val recipe: RecipeModel
-)
 
 

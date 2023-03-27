@@ -27,7 +27,6 @@ class FavorisFragment : Fragment(), OnFavoriteRecipeItemClickListener {
 
 
     private lateinit var recyclerView: RecyclerView
-    private val token = "Token 9c8b06d329136da358c2d00e76946b0111ce2c48"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

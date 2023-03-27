@@ -29,8 +29,6 @@ class HomeFragment (private val recipeFavorisDao: RecipeFavorisDao) : Fragment()
     private var pageRecipe: Int = 1
     private val token = "Token 9c8b06d329136da358c2d00e76946b0111ce2c48"
 
-    private var isFavorite: Boolean = false
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -128,21 +126,14 @@ class HomeFragment (private val recipeFavorisDao: RecipeFavorisDao) : Fragment()
                 )
                 if (response?.recipes != null) {
                     val recipeList = response.recipes.map { result ->
-                        val id = result.pk
-                        val title = result.title
-                        val description = result.description
-                        val image = result.featured_image
-                        val ingredients = result.ingredients
-                        val dateAdded = result.date_added
-                        val dateUpdated = result.date_updated
                         RecipeModel(
-                            id,
-                            title,
-                            description,
-                            image,
-                            ingredients,
-                            dateAdded,
-                            dateUpdated
+                            result.pk,
+                            result.title,
+                            result.description,
+                            result.featured_image,
+                            result.ingredients,
+                            result.date_added,
+                            result.date_updated
                         )
                     }
                     if (recipeList != null && recipeList.isNotEmpty()) {
