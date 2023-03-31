@@ -18,32 +18,28 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class FavoriteRecipeAdapter(
     private val context: Context,
     private val favoriteRecipeArrayList: ArrayList<RecipeModel>,
     private val listener: OnFavoriteRecipeItemClickListener?,
     private val recipeFavorisDao: RecipeFavorisDao,
-) : RecyclerView.Adapter<FavoriteRecipeAdapter.FavoriteViewHolder>() {
-
+    private val recyclerView: RecyclerView,
+    private val tvNoFavorites: TextView,
+): RecyclerView.Adapter<FavoriteRecipeAdapter.FavoriteViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
         val viewHolder = FavoriteViewHolder(view)
-
         view.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener?.onFavoriteRecipeItemClick(favoriteRecipeArrayList[position])
             }
         }
-
         return viewHolder
     }
-
     override fun getItemCount(): Int {
         return favoriteRecipeArrayList.size
     }
-
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val favorite: RecipeModel = favoriteRecipeArrayList[position]
@@ -62,12 +58,13 @@ class FavoriteRecipeAdapter(
                     DialogInterface.OnClickListener { dialog, which ->
                         CoroutineScope(Dispatchers.IO).launch {
                             recipeFavorisDao.delete(favorite)
-                            println( recipeFavorisDao.getRecipeCount())
+                            println(recipeFavorisDao.getRecipeCount())
                             // supprimer l'élément de la liste
                             favoriteRecipeArrayList.removeAt(position)
                             // mettre à jour l'affichage
                             (holder.favoriteIV.context as Activity).runOnUiThread {
                                 notifyDataSetChanged()
+                                updateEmptyView()
                             }
                         }
                     })
@@ -75,7 +72,15 @@ class FavoriteRecipeAdapter(
                 .show()
         }
     }
-
+    fun updateEmptyView() {
+        if (favoriteRecipeArrayList.isEmpty()) {
+            recyclerView.visibility = View.GONE
+            tvNoFavorites.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            tvNoFavorites.visibility = View.GONE
+        }
+    }
     private fun loadImage(url: String?, imageView: ImageView) {
         Glide.with(context)
             .load(url)
@@ -83,8 +88,6 @@ class FavoriteRecipeAdapter(
             .error(R.drawable.ic_splahscreen) // optional
             .into(imageView)
     }
-
-
     class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageLinkRecipe: ImageView = itemView.findViewById(R.id.imageRecipe)
         val titleRecipe: TextView = itemView.findViewById(R.id.titleRecipe)
@@ -93,7 +96,6 @@ class FavoriteRecipeAdapter(
         val favoriteIV: ImageButton = itemView.findViewById(R.id.starButton)
     }
 }
-
 interface OnFavoriteRecipeItemClickListener {
     fun onFavoriteRecipeItemClick(recipe: RecipeModel)
 }
