@@ -4,7 +4,7 @@ Food2Work est une application Android qui permet de consulter une liste de recet
 ## Captures d'écran
 <div style="display: flex; justify-content: center;">
   <img src="https://user-images.githubusercontent.com/80331756/224341188-fcd26edd-b3b6-4d0e-b89a-bd6359f2b2d2.png" width="160" alt="Screenshot_SplashScreen">
-  <img src="https://user-images.githubusercontent.com/80331756/224340961-3e9aca88-74ce-41ff-aba3-a7ff74d40668.png" width="160" alt="Screenshot_HomeScreenWithRecipeFavorite">
+  <img src="https://user-images.githubusercontent.com/80331756/229371539-9f51c53f-3c34-404b-b042-91737b099cdd.png" width="160" alt="Screenshot_HomeScreenWithRecipeFavorite">
   <img src="https://user-images.githubusercontent.com/80331756/224341040-41ce8593-bac9-4a66-b364-dfb11235076f.png" width="160" alt="Screenshot_HomeScreenWithSearch">
   <img src="https://user-images.githubusercontent.com/80331756/224340884-06bf265a-7cad-4329-95cd-71735e3dbab1.png" width="160" alt="Screenshot_RecipeDetailsScreen">
 </div>
@@ -22,20 +22,11 @@ Pour plus d'informations sur l'API Food2Fork, veuillez consulter la documentatio
 - Écran de chargement
 - Écran principal avec liste des recettes
 - Écran de détails de la recette
+- Écran des recettes en favoris
 - Gestion des erreurs de réseau
 - Enregistrement des recettes dans la base de données de l'application
 - Fonctionne sur Android 8 (Oreo) ou version ultérieure
 
-
-
-## Installation
-L'Installation n'est pas encore disponible
-
-- Téléchargez le fichier APK de l'application à partir de notre site web officiel ou d'une autre source fiable.
-- Activez l'option "Sources inconnues" dans les paramètres de sécurité de votre appareil Android pour autoriser l'installation d'applications provenant de sources autres que le Google Play Store.
-- Ouvrez le fichier APK depuis votre dossier de téléchargement ou à partir de la barre de notification.
-- Suivez les instructions à l'écran pour installer l'application.
-Une fois l'installation terminée, vous pouvez accéder à l'application en cliquant sur son icône dans le menu des applications de votre appareil Android.
 
 
 ## Utilisation
@@ -47,6 +38,7 @@ Pour utiliser l'application, suivez ces instructions :
 - Appuyez sur une recette pour accéder à l'écran de détails
 - Sur l'écran de détails, vous pouvez consulter la liste des ingrédients
 - Utilisez le bouton de retour Android pour revenir à l'écran principal
+- Appuyer sur une étoile pour mettre en favoris la recette souhaitée
 
 ## Contribuer
 Si vous souhaitez contribuer à l'application, veuillez suivre ces étapes :
